@@ -1,14 +1,13 @@
 var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
+var localURL = 'http://localhost:3000/'
 
-function getMessages(baseURL) {
-  $.get(baseURL)
+function getMessages(localURL) {
+  $.get(localURL)
     .then(displayMessages)
 }
 
 function displayMessages(data) {
-  console.log(data);
   data.forEach(function(data) {
-    console.log(data.email);
     $('.message-data').append(
       `
         <div class="card">
@@ -16,14 +15,14 @@ function displayMessages(data) {
           <div class="row">
             <div class="col-sm-9">
               <div class="card-block">
-                <h4 class="card-title">Message Title</h4>
-                <p class="card-text">Message text.... With supporting text below as a natural lead-in to additional content.</p>
+                <h4 class="card-title">${data.title}</h4>
+                <p class="card-text">${data.message}</p>
                 <a href="#" class="btn btn-seconday">Read More</a>
               </div>
             </div>
             <div class="col-sm-3 card-block text-center">
               <div class="rating rounded">
-                <p>72</p>
+                <p>${data.rating}</p>
                 <button type="button" class="btn btn-outline-success upvote"><i class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
                 <button type="button" class="btn btn-outline-danger downvote"><i class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
               </div>
@@ -56,33 +55,48 @@ function loadSignUp() {
 function submitSignIn() {
   let email = $('#sign-in-email').val();
   let password = $('#sign-in-password').val()
-  console.log({
-    email,
-    password
-  });
   $('#sign-in-modal').modal('hide')
+  $('.message-data').empty()
+  loadUserData()
 }
 
 function submitSignUp() {
   let email = $('#sign-up-email').val();
   let password = $('#sign-up-password').val()
   let username = $('#sign-up-username').val()
-  console.log({
-    email,
-    password,
-    username
-  });
+
   $('#sign-up-modal').modal('hide')
 }
 
+function loadUserData(id){
+  $.get(localURL + `users/1`)
+  .then(function(id){
+    $('.message-data').append(
+      `
+      <div class="card blahhh">
+        <div class="card-block">
+          <p>${id[0].username}</p>
+        </div>
+      </div>
+      `
+    )
+    // getMessages(localURL)
+  })
+}
+
 $(document).ready(function() {
-  getMessages(baseURL)
+  getMessages(localURL)
 })
 
 $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
 $('#submit-sign-up').on('click', submitSignUp)
+
+$('.custom-control-input').on('click', function(){
+  $('.hide').toggle()
+})
+
 
 //once we are dynamically appending cards, we can limit the description text to X amount of characters
 // and then we can create a click handler for the read more button that will then reveal the rest of the text,

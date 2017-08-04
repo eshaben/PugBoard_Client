@@ -48,3 +48,11 @@ main {
 .rating > button {
   margin: 1vh;
 }
+
+.hide {
+  display: none;
+}
+
+.blahhh {
+  width: 100%;
+}
