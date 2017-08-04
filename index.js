@@ -85,9 +85,8 @@ function getUserData(id){
   })
 }
 
-$(document).ready(function() {
-  getMessages(localURL)
-})
+  getMessages(baseURL)
+
 
 $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
