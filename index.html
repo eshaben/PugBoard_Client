@@ -5,14 +5,115 @@
     <title></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    <header>
+      <nav class="main-nav navbar navbar-toggleable-md navbar-light bg-faded">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <img src="assets/pugboard_logo.png" width="" height="" alt="" style="height: 6.6vh;">
+        </a>
 
-  </body>
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <span class="navbar-nav mr-auto"></span>
+          <section class="form-inline">
+            <button class="btn btn-primary" id="sign-in" type="button" data-toggle="modal" data-target="#sign-in-modal" data-whatever="sign-in">Sign In</button>
+            <button class="btn btn-primary" id="sign-up" type="button" data-toggle="modal" data-target="#sign-up-modal" data-whatever="sign-up">Sign Up</button>
+            <div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Welcome back! Please sign in!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="authenticate-form">
+                      <div class="form-group row">
+                        <label for="sign-in-email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="sign-in-email" placeholder="Tater@pugsforlife.com">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="sign-in-password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" id="sign-in-password" placeholder="Password">
+                        </div>
+                      </div>
+                    </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                      <button type="button" class="btn btn-primary submit-sign-in">Sign In!</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="sign-up-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New here? Sign up for everything pugs!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="authenticate-form">
+                      <div class="form-group row">
+                        <label for="sign-up-email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="sign-up-email" placeholder="Tater@pugsforlife.com">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="sign-up-password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" id="sign-up-password" placeholder="Password">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="sign-up-username" class="col-sm-2 col-form-label">Username</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="sign-up-username" placeholder="tater_tot00">
+                        </div>
+                      </div>
+                    </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                      <button type="button" class="btn btn-primary" id="submit-sign-up">Sign Up!</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </nav>
+    </header>
+
+    <main class="message-data">
+
+    </main>
+
+    <footer>
+      <nav class="navbar fixed-bottom navbar-light bg-faded" style="">
+        <a class="navbar-brand footer" href="#">&copy; 2017 PugBoard. All Rights Reserved</a>
+      </nav>
+    </footer>
+
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  <script src='index.js'>
-
-  </script>
+  <script src="https://use.fontawesome.com/96b9604e8e.js"></script>
+  <script src='index.js'></script>
+  </body>
 </html>

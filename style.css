@@ -1,0 +1,50 @@
+.navbar {
+  background: white;
+}
+
+body {
+  background: rgb(134,167, 190);
+}
+
+.form-inline > button {
+  margin: auto 1vh;
+}
+
+.footer {
+  font-size: 80%;
+  height: 5vh;
+}
+
+main {
+  margin-bottom: 10vh;
+}
+
+.form-group {
+  margin: 1vh;
+}
+
+.card {
+  width: 80%;
+  margin: auto;
+  margin-top: 3vh;
+}
+
+.num-of-comments {
+  margin: auto 10vh;
+}
+
+.see-thread {
+  position: absolute;
+  bottom: 1vh;
+  right: 10vh;
+}
+
+.rating {
+  border: 1px solid rgba(0,0,0,.1);
+  padding: 1vh;
+  margin: 1vh;
+}
+
+.rating > button {
+  margin: 1vh;
+}
