@@ -1,8 +1,8 @@
 var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
-function getMessages(localURL) {
-  $.get(localURL)
+function getMessages(baseURL) {
+  $.get(baseURL)
     .then(displayMessages)
 }
 
@@ -57,7 +57,7 @@ function submitSignIn() {
   let password = $('#sign-in-password').val()
   $('#sign-in-modal').modal('hide')
   $('.message-data').empty()
-  loadUserData()
+  getUserData()
 }
 
 function submitSignUp() {
@@ -68,9 +68,10 @@ function submitSignUp() {
   $('#sign-up-modal').modal('hide')
 }
 
-function loadUserData(id){
-  $.get(localURL + `users/1`)
-  .then(function(id){
+function getUserData(id){
+  $.get(baseURL + `users/1`)
+  .then(
+    function appendUserData(id){
     $('.message-data').append(
       `
       <div class="card blahhh">
@@ -80,7 +81,7 @@ function loadUserData(id){
       </div>
       `
     )
-    // getMessages(localURL)
+    // getMessages(baseURL)
   })
 }
 
