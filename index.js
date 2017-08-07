@@ -226,6 +226,48 @@ $('.custom-control-input').on('click', function(){
 })
 
 
+$('.btn-success').click(function(){
+  var messageTitle = $('#message-title').val()
+  var message = $('#message-text').val()
+  // var category = $('.custom-select').val()
+
+  var postData = {
+    messageTitle: messageTitle,
+    message: message
+    // category: category
+  }
+  if(messageTitle && message && category) {
+    $.post(baseURL, postData)
+    .then((id)=> {
+      $.get('baseURL/${id}').then((data)=> {
+        $('.message-data').append(`
+          <div class="card">
+            <div class="card-header">Post by: ${data.username}</div>
+            <div class="row">
+              <div class="col-sm-9">
+                <div class="card-block">
+                  <h4 class="card-title">${data[0].messageTitle}</h4>
+                  <p class="card-text">${data[0].message}</p>
+                  <a href="#" class="btn btn-seconday">Read More</a>
+                </div>
+              </div>
+              <div class="col-sm-3 card-block text-center">
+                <div class="rating rounded">
+                  <p id="rating-${data.id}">${data.rating}</p>
+                  <button type="button" id="up-${data.id}" class="btn btn-outline-success upvote"><i class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
+                  <button type="button" id="down-${data.id}" class="btn btn-outline-danger downvote"><i class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-muted">
+              <p class="num-of-comments">6 Comments</p>
+              <a href="#" class="see-thread btn btn-seconday">See Thread</a>
+            </div>
+          </div>`)
+      })
+    })
+  }
+})
 
 //once we are dynamically appending cards, we can limit the description text to X amount of characters
 // and then we can create a click handler for the read more button that will then reveal the rest of the text,
