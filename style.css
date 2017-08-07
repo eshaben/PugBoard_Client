@@ -53,6 +53,33 @@ main {
   display: none;
 }
 
-.blahhh {
+.user-card {
   width: 100%;
+}
+
+.posts {
+  margin: auto;
+}
+
+.posts > button {
+  width: 40vw;
+}
+
+.user-info {
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+.user-output {
+  margin: 2vh;
+}
+
+.user-icon {
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+}
+
+.my-posts, .all-posts{
+  width: 40vw;
+  margin-bottom: 0;
 }
