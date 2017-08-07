@@ -94,35 +94,43 @@ function getUserData(id){
   .then(displayUserPage)
   .then( function() {
     $(document).on('click', '#submit-new-message', function(event){
-      addMessage()
-      $('.message-data').empty()
-      loadAddMessageForm()
-      getMessages(localURL)
+      $.get(localURL + 'users/1')
+      .then(data => {
+        addMessage()
+        $('.message-data').empty()
+        loadAddMessageForm()
+        getMessages(localURL)
+      })
     })
   })
 }
 
 function addMessage() {
+  var id = 0
   var messageTitle = $('#message-title').val()
   var messageText = $('#message-text').val()
-  var rating = 0
-  var postData = {
-    title: messageTitle,
-    message: messageText,
-    rating: rating
-  }
-  if(messageTitle && messageText) {
-    $.post(localURL + '1', postData)
-    // .then(()=> {
-    //   $('.message-data').empty()
-    //   loadAddMessageForm()
-    //   getMessages(localURL)
-    // })
-  }
+  $.get(localURL + 'users/1')
+  .then(data => {
+    id = data[0].id
+    var rating = 0
+    var postData = {
+      title: messageTitle,
+      message: messageText,
+      rating: rating,
+      user_id: id
+    }
+    if(messageTitle && messageText) {
+      $.post(localURL + '1', postData)
+      .then(()=> {
+        $('.message-data').empty()
+        loadAddMessageForm()
+        getMessages(localURL)
+      })
+    }
+  })
 }
 
 function loadAddMessageForm(id){
-  console.log(id[0].id);
   $('.message-data').append(`
     <div class="card">
       <div class="card-header" role="tab" id="heading-add-message">
@@ -144,7 +152,7 @@ function loadAddMessageForm(id){
               <textarea class="form-control" id="message-text" rows="3"></textarea>
             </div>
             <div class="form-group">
-              <input type="hidden" class="form-control hide" id="message-text" rows="3" value="${id[0].id}"></input>
+              <input type="hidden" class="form-control hide" id="message-text" rows="3" value="${id}"></input>
             </div>
             <div class="form-group">
               <select class="custom-select">
