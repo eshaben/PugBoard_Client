@@ -77,7 +77,13 @@ function submitSignUp() {
   let email = $('#sign-up-email').val();
   let password = $('#sign-up-password').val()
   let username = $('#sign-up-username').val()
-
+  let formData = {
+    'email': email,
+    'password': password,
+    'username': username
+  }
+  console.log(formData);
+  $.post(localURL + 'users', formData)
   $('#sign-up-modal').modal('hide')
   $('.message-data').empty()
   alertSuccessfulSignup()
@@ -233,7 +239,6 @@ function alertSuccessfulSignup(){
 }
 
 function editNavButtons(id){
-  console.log(id[0].email);
   $('#sign-in').hide()
   $('#sign-up').hide()
   $('.form-inline').append(
