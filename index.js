@@ -118,10 +118,14 @@ $('.all-posts').on('click', function(){
   getMessages(localURL)
 })
 }
-
 function getUserData(id){
   $.get(localURL + 'users/1')
   .then(displayUserPage)
+  .then(function() {
+    $('#submit-new-message').on('click', function(){
+      return console.log('clicked')
+    })
+  })
 }
 
 function loadAddMessageForm(){
@@ -172,50 +176,7 @@ function loadAddMessageForm(){
       </div>
     </div>
   `)
-  function addMessage() {
-    console.log('clicked')
-    $('.bob').on('click', addMessage)
-    var messageTitle = $('#message-title').val()
-    var messageText = $('#message-text').val()
-    // var category = $('.custom-select').val()
 
-    var postData = {
-      messageTitle: messageTitle,
-      messageText: messageText
-      // category: category
-    }
-    if(messageTitle && messageText) {
-      $.post(localURL, postData)
-      .then((id)=> {
-        $.get(localURL + `${id}`).then((data)=> {
-          $('.message-data').append(`
-            <div class="card">
-              <div class="card-header">Post by: ${data.username}</div>
-              <div class="row">
-                <div class="col-sm-9">
-                  <div class="card-block">
-                    <h4 class="card-title">${data[0].messageTitle}</h4>
-                    <p class="card-text">${data[0].messageText}</p>
-                    <a href="#" class="btn btn-seconday">Read More</a>
-                  </div>
-                </div>
-                <div class="col-sm-3 card-block text-center">
-                  <div class="rating rounded">
-                    <p id="rating-${data.id}">${data.rating}</p>
-                    <button type="button" id="up-${data.id}" class="btn btn-outline-success upvote"><i class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
-                    <button type="button" id="down-${data.id}" class="btn btn-outline-danger downvote"><i class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer text-muted">
-                <p class="num-of-comments">6 Comments</p>
-                <a href="#" class="see-thread btn btn-seconday">See Thread</a>
-              </div>
-            </div>`)
-        })
-      })
-    }
-  }
 }
 
 function displayUserPage(id){
@@ -262,6 +223,52 @@ function editNavButtons(id){
   )
 }
 
+// function addMessage() {
+//   console.log('clicked')
+//   var messageTitle = $('#message-title').val()
+//   var messageText = $('#message-text').val()
+//   // var category = $('.custom-select').val()
+//
+//   var postData = {
+//     Title: messageTitle,
+//     messageText: messageText
+//     // category: category
+//   }
+//   if(messageTitle && message) {
+//     $.post(localURL, postData)
+//     .then((id)=> {
+//       $.get(localURL + `${id}`).then((data)=> {
+//         $('.message-data').append(`
+//           <div class="card">
+//             <div class="card-header">Post by: ${data.username}</div>
+//             <div class="row">
+//               <div class="col-sm-9">
+//                 <div class="card-block">
+//                   <h4 class="card-title">${data[0].messageTitle}</h4>
+//                   <p class="card-text">${data[0].messageText}</p>
+//                   <a href="#" class="btn btn-seconday">Read More</a>
+//                 </div>
+//               </div>
+//               <div class="col-sm-3 card-block text-center">
+//                 <div class="rating rounded">
+//                   <p id="rating-${data.id}">${data.rating}</p>
+//                   <button type="button" id="up-${data.id}" class="btn btn-outline-success upvote"><i class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
+//                   <button type="button" id="down-${data.id}" class="btn btn-outline-danger downvote"><i class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
+//                 </div>
+//               </div>
+//             </div>
+//             <div class="card-footer text-muted">
+//               <p class="num-of-comments">6 Comments</p>
+//               <a href="#" class="see-thread btn btn-seconday">See Thread</a>
+//             </div>
+//           </div>`)
+//
+//       })
+//     })
+//   }
+//
+//
+// }
 
 
 getMessages(baseURL)
@@ -270,7 +277,10 @@ $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
 $('#submit-sign-up').on('click', submitSignUp)
-
+// $('.bob').click((event)=> {
+//   event.preventDefault()
+//   console.log('click')
+// })
 $('.custom-control-input').on('click', function(){
 $('.hide').toggle()
 })
