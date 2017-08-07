@@ -82,7 +82,6 @@ function submitSignUp() {
     'password': password,
     'username': username
   }
-  console.log(formData);
   $.post(localURL + 'users', formData)
   $('#sign-up-modal').modal('hide')
   $('.message-data').empty()
@@ -104,7 +103,6 @@ function appendUserData(id){
     `
   )
   $('.my-posts').on('click', function(){
-  console.log("meow");
   $('.all-posts').removeClass('active')
   $('.my-posts').addClass('active')
   $('.message-data').empty()
@@ -112,7 +110,6 @@ function appendUserData(id){
   //put users posts here
 })
 $('.all-posts').on('click', function(){
-  console.log("woof");
   $('.my-posts').removeClass('active')
   $('.all-posts').addClass('active')
   getMessages(localURL)
@@ -122,6 +119,31 @@ $('.all-posts').on('click', function(){
 function getUserData(id){
   $.get(localURL + 'users/1')
   .then(displayUserPage)
+  .then( function() {
+    $(document).on('click', '#submit-new-message', function(event){
+      addMessage()
+      $('.message-data').empty()
+      loadAddMessageForm()
+      getMessages(localURL)
+    })
+  })
+}
+
+function addMessage() {
+  var messageTitle = $('#message-title').val()
+  var messageText = $('#message-text').val()
+  var postData = {
+    title: messageTitle,
+    message: messageText
+  }
+  if(messageTitle && messageText) {
+    $.post(localURL + '1', postData)
+    // .then(()=> {
+    //   $('.message-data').empty()
+    //   loadAddMessageForm()
+    //   getMessages(localURL)
+    // })
+  }
 }
 
 function loadAddMessageForm(){
@@ -165,7 +187,7 @@ function loadAddMessageForm(){
               </div>
             </div>
             <div class="form-group">
-              <button type="button" class="btn btn-success">Submit</button>
+              <button type="button" id='submit-new-message' class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -174,10 +196,11 @@ function loadAddMessageForm(){
   `)
 }
 
+
 function displayUserPage(id){
   // appendUserData(id);
-  editNavButtons(id);
-  loadAddMessageForm();
+  editNavButtons(id)
+  loadAddMessageForm()
   getMessages(localURL)
 }
 
@@ -219,9 +242,9 @@ function editNavButtons(id){
 }
 
 
-getMessages(baseURL)
+getMessages(localURL)
 
-$('btn-success').on('click', console.log('clicked'))
+
 $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
