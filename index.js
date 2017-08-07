@@ -133,9 +133,11 @@ function getUserData(id){
 function addMessage() {
   var messageTitle = $('#message-title').val()
   var messageText = $('#message-text').val()
+  var rating = 0
   var postData = {
     title: messageTitle,
-    message: messageText
+    message: messageText,
+    rating: rating
   }
   if(messageTitle && messageText) {
     $.post(localURL + '1', postData)
