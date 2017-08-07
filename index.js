@@ -221,11 +221,11 @@ function editNavButtons(id){
 
 getMessages(baseURL)
 
+$('btn-success').on('click', console.log('clicked'))
 $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
 $('#submit-sign-up').on('click', submitSignUp)
-
 $('.custom-control-input').on('click', function(){
   $('.hide').toggle()
 })
