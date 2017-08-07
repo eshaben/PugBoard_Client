@@ -8,7 +8,6 @@ function getMessages(localURL) {
 
 function displayMessages(data) {
   data.forEach(function(data) {
-    console.log(data);
     $('.message-data').append(
       `
         <div class="card">
@@ -90,33 +89,6 @@ function submitSignUp() {
   getUserData()
 }
 
-function appendUserData(id){
-  $('.user-data').prepend(
-    `
-    <div class="card">
-        <h5 class="text-center mb-0">
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="all-posts btn btn-outline-info active">All Posts</button>
-            <button type="button" class="my-posts btn btn-outline-info">My Posts</button>
-          </div>
-        </h5>
-    </div>
-    `
-  )
-  $('.my-posts').on('click', function(){
-  $('.all-posts').removeClass('active')
-  $('.my-posts').addClass('active')
-  $('.message-data').empty()
-  loadAddMessageForm()
-  //put users posts here
-})
-$('.all-posts').on('click', function(){
-  $('.my-posts').removeClass('active')
-  $('.all-posts').addClass('active')
-  getMessages(localURL)
-})
-}
-
 function getUserData(id){
   $.get(localURL + 'users/1')
   .then(displayUserPage)
@@ -149,7 +121,8 @@ function addMessage() {
   }
 }
 
-function loadAddMessageForm(){
+function loadAddMessageForm(id){
+  console.log(id[0].id);
   $('.message-data').append(`
     <div class="card">
       <div class="card-header" role="tab" id="heading-add-message">
@@ -169,6 +142,9 @@ function loadAddMessageForm(){
             <div class="form-group">
               <label for="message-text">Message</label>
               <textarea class="form-control" id="message-text" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="hidden" class="form-control hide" id="message-text" rows="3" value="${id[0].id}"></input>
             </div>
             <div class="form-group">
               <select class="custom-select">
@@ -203,7 +179,7 @@ function loadAddMessageForm(){
 function displayUserPage(id){
   // appendUserData(id);
   editNavButtons(id)
-  loadAddMessageForm()
+  loadAddMessageForm(id)
   getMessages(localURL)
 }
 
