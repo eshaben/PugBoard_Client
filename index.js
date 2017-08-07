@@ -8,7 +8,6 @@ function getMessages(localURL) {
 
 function displayMessages(data) {
   data.forEach(function(data) {
-    console.log(data);
     $('.message-data').append(
       `
         <div class="card">
@@ -90,36 +89,9 @@ function submitSignUp() {
   getUserData()
 }
 
-function appendUserData(id){
-  $('.user-data').prepend(
-    `
-    <div class="card">
-        <h5 class="text-center mb-0">
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="all-posts btn btn-outline-info active">All Posts</button>
-            <button type="button" class="my-posts btn btn-outline-info">My Posts</button>
-          </div>
-        </h5>
-    </div>
-    `
-  )
-  $('.my-posts').on('click', function(){
-  $('.all-posts').removeClass('active')
-  $('.my-posts').addClass('active')
-  $('.message-data').empty()
-  loadAddMessageForm()
-  //put users posts here
-})
-$('.all-posts').on('click', function(){
-  $('.my-posts').removeClass('active')
-  $('.all-posts').addClass('active')
-  getMessages(localURL)
-})
-}
 function getUserData(id){
   $.get(localURL + 'users/1')
   .then(displayUserPage)
-<<<<<<< HEAD
   .then( function() {
     $(document).on('click', '#submit-new-message', function(event){
       addMessage()
@@ -147,16 +119,10 @@ function addMessage() {
     //   getMessages(localURL)
     // })
   }
-=======
-  .then(function() {
-    $('#submit-new-message').on('click', function(){
-      return console.log('clicked')
-    })
-  })
->>>>>>> dd7e44f077d3a3fe5b3cd196ca0cc0e0b6ae81ba
 }
 
-function loadAddMessageForm(){
+function loadAddMessageForm(id){
+  console.log(id[0].id);
   $('.message-data').append(`
     <div class="card">
       <div class="card-header" role="tab" id="heading-add-message">
@@ -176,6 +142,9 @@ function loadAddMessageForm(){
             <div class="form-group">
               <label for="message-text">Message</label>
               <textarea class="form-control" id="message-text" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="hidden" class="form-control hide" id="message-text" rows="3" value="${id[0].id}"></input>
             </div>
             <div class="form-group">
               <select class="custom-select">
@@ -204,14 +173,13 @@ function loadAddMessageForm(){
       </div>
     </div>
   `)
-
 }
 
 
 function displayUserPage(id){
   // appendUserData(id);
   editNavButtons(id)
-  loadAddMessageForm()
+  loadAddMessageForm(id)
   getMessages(localURL)
 }
 
@@ -252,53 +220,6 @@ function editNavButtons(id){
   )
 }
 
-// function addMessage() {
-//   console.log('clicked')
-//   var messageTitle = $('#message-title').val()
-//   var messageText = $('#message-text').val()
-//   // var category = $('.custom-select').val()
-//
-//   var postData = {
-//     Title: messageTitle,
-//     messageText: messageText
-//     // category: category
-//   }
-//   if(messageTitle && message) {
-//     $.post(localURL, postData)
-//     .then((id)=> {
-//       $.get(localURL + `${id}`).then((data)=> {
-//         $('.message-data').append(`
-//           <div class="card">
-//             <div class="card-header">Post by: ${data.username}</div>
-//             <div class="row">
-//               <div class="col-sm-9">
-//                 <div class="card-block">
-//                   <h4 class="card-title">${data[0].messageTitle}</h4>
-//                   <p class="card-text">${data[0].messageText}</p>
-//                   <a href="#" class="btn btn-seconday">Read More</a>
-//                 </div>
-//               </div>
-//               <div class="col-sm-3 card-block text-center">
-//                 <div class="rating rounded">
-//                   <p id="rating-${data.id}">${data.rating}</p>
-//                   <button type="button" id="up-${data.id}" class="btn btn-outline-success upvote"><i class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
-//                   <button type="button" id="down-${data.id}" class="btn btn-outline-danger downvote"><i class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
-//                 </div>
-//               </div>
-//             </div>
-//             <div class="card-footer text-muted">
-//               <p class="num-of-comments">6 Comments</p>
-//               <a href="#" class="see-thread btn btn-seconday">See Thread</a>
-//             </div>
-//           </div>`)
-//
-//       })
-//     })
-//   }
-//
-//
-// }
-
 
 getMessages(localURL)
 
@@ -307,16 +228,11 @@ $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
 $('#submit-sign-up').on('click', submitSignUp)
-<<<<<<< HEAD
-=======
-// $('.bob').click((event)=> {
-//   event.preventDefault()
-//   console.log('click')
-// })
->>>>>>> dd7e44f077d3a3fe5b3cd196ca0cc0e0b6ae81ba
 $('.custom-control-input').on('click', function(){
-$('.hide').toggle()
+  $('.hide').toggle()
 })
+
+
 
 //once we are dynamically appending cards, we can limit the description text to X amount of characters
 // and then we can create a click handler for the read more button that will then reveal the rest of the text,
