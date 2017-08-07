@@ -214,32 +214,21 @@ function editNavButtons(id){
 }
 
 
-getMessages(baseURL)
-
-$('#sign-in').on('click', loadSignIn)
-$('#sign-up').on('click', loadSignUp)
-$('.submit-sign-in').on('click', submitSignIn)
-$('#submit-sign-up').on('click', submitSignUp)
-
-$('.custom-control-input').on('click', function(){
-  $('.hide').toggle()
-})
-
-
+function addMessage() {
 $('.btn-success').click(function(){
   var messageTitle = $('#message-title').val()
-  var message = $('#message-text').val()
+  var messageText = $('#message-text').val()
   // var category = $('.custom-select').val()
 
   var postData = {
     messageTitle: messageTitle,
-    message: message
+    messageText: messageText
     // category: category
   }
-  if(messageTitle && message && category) {
+  if(messageTitle && message) {
     $.post(baseURL, postData)
     .then((id)=> {
-      $.get('baseURL/${id}').then((data)=> {
+      $.get(`https://blooming-plateau-13338.herokuapp.com/${id}`).then((data)=> {
         $('.message-data').append(`
           <div class="card">
             <div class="card-header">Post by: ${data.username}</div>
@@ -247,7 +236,7 @@ $('.btn-success').click(function(){
               <div class="col-sm-9">
                 <div class="card-block">
                   <h4 class="card-title">${data[0].messageTitle}</h4>
-                  <p class="card-text">${data[0].message}</p>
+                  <p class="card-text">${data[0].messageText}</p>
                   <a href="#" class="btn btn-seconday">Read More</a>
                 </div>
               </div>
@@ -267,6 +256,17 @@ $('.btn-success').click(function(){
       })
     })
   }
+})
+}
+getMessages(baseURL)
+
+$('#sign-in').on('click', loadSignIn)
+$('#sign-up').on('click', loadSignUp)
+$('.submit-sign-in').on('click', submitSignIn)
+$('#submit-sign-up').on('click', submitSignUp)
+$('.btn-success').on('click', addMessage)
+$('.custom-control-input').on('click', function(){
+  $('.hide').toggle()
 })
 
 //once we are dynamically appending cards, we can limit the description text to X amount of characters
