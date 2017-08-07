@@ -8,6 +8,7 @@ function getMessages(localURL) {
 
 function displayMessages(data) {
   data.forEach(function(data) {
+    console.log(data);
     $('.message-data').append(
       `
         <div class="card">
