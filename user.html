@@ -97,12 +97,53 @@
       </nav>
     </header>
 
-    <main class="">
-      <section class="user-data">
+    <main class="message-data">
+      <div class="card">
+        <div class="card-header" role="tab" id="heading-add-message">
+          <h5 class="text-center mb-0">
+            <a class="collapsed text-center" data-toggle="collapse" data-parent="#accordion" href="#add-message" aria-expanded="false" aria-controls="add-message">
+              Add a message!
+            </a>
+          </h5>
+        </div>
+        <div id="add-message" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="card-block add-message-card-block">
+            <form>
+              <div class="form-group">
+                <label for="message-title">Message Title</label>
+                <input type="text" class="form-control" id="message-title" placeholder="Example input">
+              </div>
+              <div class="form-group">
+                <label for="message-text">Message</label>
+                <textarea class="form-control" id="message-text" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <select class="custom-select">
+                  <option selected>Pick a category</option>
+                  <option value="1">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">I don't see my category!</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <div class="form-group hide blah">
+                  <label for="other-category">Enter a new category</label>
+                  <input type="text" class="form-control" id="other-category" placeholder="snorting pugs">
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-success">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
-      </section>
-      <section class="message-data">
-      </section>
     </main>
 
     <footer>
