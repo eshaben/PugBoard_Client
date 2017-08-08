@@ -26,6 +26,9 @@ function displayMessages(data) {
                 <button type="button" id="up-${data.id}" class="btn btn-outline-success upvote"><i class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
                 <button type="button" id="down-${data.id}" class="btn btn-outline-danger downvote"><i class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
               </div>
+              <div id="delete" class="delete">
+              <button type="button" id= "deleteButton" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+              </div>
             </div>
           </div>
           <div class="card-footer text-muted">
@@ -227,7 +230,26 @@ function editNavButtons(id){
     `
   )
 }
+function deleteMessage() {
+  // var id = $('#delete').val()
+  // if(id) {
+  $.ajax({
+    url: `http://localhost:3000/`,
+    method: 'DELETE'
+  })
 
+    // $(`.message-data${id}`).remove()
+// }
+// }
+}
+
+// $(() => {
+//   const token = localStorage.getItem('token')
+//
+//   const parsedToken = parseJWT(token)
+//   console.log(parsedToken);
+// $.get(`localhost${parsedToken.id}`)
+//
 
 getMessages(localURL)
 
@@ -236,6 +258,7 @@ $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
 $('#submit-sign-up').on('click', submitSignUp)
+$('#deleteButton').on('click', deleteMessage)
 $('.custom-control-input').on('click', function(){
   $('.hide').toggle()
 })
