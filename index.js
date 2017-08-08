@@ -11,7 +11,7 @@ function displayMessages(data) {
     $('.message-data').append(
       `
         <div class="card">
-          <div class="card-header">Post by: ${data.username}</div>
+          <div class="card-header post-by">Post by: ${data.username}</div>
           <div class="row">
             <div class="col-sm-9">
               <div class="card-block">
@@ -260,13 +260,25 @@ function editNavButtons(id){
           <p>Email: ${id[0].email}</p>
         </div>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">My Posts</a>
+        <a class="dropdown-item" id="my-posts" href="#">My Posts</a>
       </div>
     </div>
       <button class="btn btn-primary" type="submit">Sign Out</button>
     `
   )
 }
+$(document).on('click', '#my-posts', function(id){
+  var id = 1
+  console.log("you clicked me!");
+  $('.message-data').empty()
+  $.get(localURL + id)
+  .then(function(data){
+    displayMessages(data)
+    console.log(data);
+    $('.post-by').text("Post by: You")
+  })
+})
+
 function deleteMessage() {
   // var id = $('#delete').val()
   // if(id) {
