@@ -17,7 +17,6 @@ function displayMessages(data) {
               <div class="card-block">
                 <h4 class="card-title">${data.title}</h4>
                 <p class="card-text">${data.message}</p>
-                <a href="#" class="btn btn-seconday">Read More</a>
               </div>
             </div>
             <div class="col-sm-3 card-block text-center">
@@ -26,24 +25,35 @@ function displayMessages(data) {
                 <button type="button" id="up-${data.message_id}" class="btn btn-outline-success upvote"><i id="up-${data.message_id}" class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
                 <button type="button" id="down-${data.message_id}" class="btn btn-outline-danger downvote"><i id="down-${data.message_id}" class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
               </div>
-              <div id="delete" class="delete">
-              <button type="button" id= "deleteButton" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
-              </div>
             </div>
           </div>
           <div class="card-footer text-muted">
-            <p class="num-of-comments">6 Comments</p>
-            <a href="#" class="see-thread btn btn-seconday">See Thread</a>
+          <p>
+            <a id="${data.user_id}" class="seeComments btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Comments
+            </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+            <div class="card card-block">
+            <div class="emptyGuy"></div>
+            <div class="form-group">
+            <label for="comment-text">Add a Comment</label>
+            <textarea class="form-control" id="message-text" rows="3"></textarea>
+            <button type="button" id="${data.user_id}" class="btn btn-success">Submit Comment</button>
+            </div>
+            </div>
+            </div>
           </div>
         </div>
       `
     )
   })
+
+
   //this is where I was last working
   $('.upvote').on('click', function(event){
     event.preventDefault()
     var id = Number((event.target.id).slice(-1))
-    var currentRating = Number($('#rating-' + id).text ())
     $.get(baseURL + id)
     .then(function(data){
     var rating = data.rating
@@ -68,7 +78,6 @@ function displayMessages(data) {
   $('.downvote').on('click', function(event){
     event.preventDefault()
     var id = Number((event.target.id).slice(-1))
-    var currentRating = Number($('#rating-' + id).text ())
     $.get(baseURL + id)
     .then(function(data){
     var rating = data.rating
@@ -172,7 +181,7 @@ function addMessage() {
 
 function loadAddMessageForm(id){
   $('.message-data').append(`
-    <div class="card">
+    <div class="card random">
       <div class="card-header" role="tab" id="heading-add-message">
         <h5 class="text-center mb-0">
           <a class="collapsed text-center" data-toggle="collapse" data-parent="#accordion" href="#add-message" aria-expanded="false" aria-controls="add-message">
@@ -280,25 +289,14 @@ $(document).on('click', '#my-posts', function(id){
 })
 
 function deleteMessage() {
-  // var id = $('#delete').val()
-  // if(id) {
   $.ajax({
     url: `http://localhost:3000/`,
     method: 'DELETE'
   })
-
-    // $(`.message-data${id}`).remove()
-// }
-// }
 }
 
-// $(() => {
-//   const token = localStorage.getItem('token')
-//
-//   const parsedToken = parseJWT(token)
-//   console.log(parsedToken);
-// $.get(`localhost${parsedToken.id}`)
-//
+
+
 
 getMessages(baseURL)
 
