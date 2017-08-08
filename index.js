@@ -22,9 +22,9 @@ function displayMessages(data) {
             </div>
             <div class="col-sm-3 card-block text-center">
               <div class="rating rounded">
-                <p id="rating-${data.id}">${data.rating}</p>
-                <button type="button" id="up-${data.id}" class="btn btn-outline-success upvote"><i id="up-${data.id}" class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
-                <button type="button" id="down-${data.id}" class="btn btn-outline-danger downvote"><i id="down-${data.id}" class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
+                <p id="rating-${data.message_id}">${data.rating}</p>
+                <button type="button" id="up-${data.message_id}" class="btn btn-outline-success upvote"><i id="up-${data.message_id}" class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
+                <button type="button" id="down-${data.message_id}" class="btn btn-outline-danger downvote"><i id="down-${data.message_id}" class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
               </div>
             </div>
           </div>
@@ -39,53 +39,52 @@ function displayMessages(data) {
   //this is where I was last working
   $('.upvote').on('click', function(event){
     event.preventDefault()
-    var id =Number((event.target.id).slice(-1))
-
-    let message = {
-      title: data.title,
-      message: data.message,
-      rating: data.rating + 1,
-      user_id: data.user_id
-    }
-
-    $.ajax({
-      url: localURL +id,
-      method: 'PUT',
-      data: message,
-    success: function(message) {
-      $.get(localURL)
-      .then(getMessages)
-    }
+    var id = Number((event.target.id).slice(-1))
+    var currentRating = Number($('#rating-' + id).text ())
+    $.get(localURL + id)
+    .then(function(data){
+    var rating = data.rating
+      $.ajax({
+        type: 'PUT',
+        url: localURL + id,
+        data: {
+          title: data.title,
+          message: data.message,
+          rating: data.rating + 1,
+          user_id: data.user_id
+        }
+      })
+      .then(function(data){
+        let rating = data[0].rating;
+        // getMessages()
+        $('#rating-' + id).text(rating)
+      })
     })
-    // var currentRating = Number($('#rating-' + id).text ())
-
-    // $.get(localURL + id)
-    // .then(function(data){
-    // var rating = data.rating
-    //   $.ajax({
-    //     type: 'PUT',
-    //     url: localURL + id,
-    //     data: {
-    //       title: data.title,
-    //       message: data.message,
-    //       rating: data.rating + 1,
-    //       user_id: data.user_id
-    //     }
-    //   })
-    //   .then(function(){
-    //     console.log("yay");
-    //     displayMessages()
-    //   })
-
-    //   $('#rating-' + id).text(rating)
-    // })
-
   })
-  $('.downvote').on('click', function(){
-    var id = (this.id).slice(-1)
-    var currentRating = Number($('#rating-' + id).text())
-    //create post request here to send back the new rating and remove the below line
-    $('#rating-' + id).text(currentRating - 1)
+
+  $('.downvote').on('click', function(event){
+    event.preventDefault()
+    var id = Number((event.target.id).slice(-1))
+    var currentRating = Number($('#rating-' + id).text ())
+    $.get(localURL + id)
+    .then(function(data){
+    var rating = data.rating
+      $.ajax({
+        type: 'PUT',
+        url: localURL + id,
+        data: {
+          title: data.title,
+          message: data.message,
+          rating: data.rating - 1,
+          user_id: data.user_id
+        }
+      })
+      .then(function(data){
+        let rating = data[0].rating;
+        // getMessages()
+        $('#rating-' + id).text(rating)
+      })
+    })
   })
 }
 
