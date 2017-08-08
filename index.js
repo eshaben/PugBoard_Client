@@ -2,7 +2,7 @@ var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
 function getMessages(localURL) {
-  $.get(localURL)
+  $.get(baseURL)
     .then(displayMessages)
 }
 
@@ -44,12 +44,12 @@ function displayMessages(data) {
     event.preventDefault()
     var id = Number((event.target.id).slice(-1))
     var currentRating = Number($('#rating-' + id).text ())
-    $.get(localURL + id)
+    $.get(baseURL + id)
     .then(function(data){
     var rating = data.rating
       $.ajax({
         type: 'PUT',
-        url: localURL + id,
+        url: baseURL + id,
         data: {
           title: data.title,
           message: data.message,
@@ -69,12 +69,12 @@ function displayMessages(data) {
     event.preventDefault()
     var id = Number((event.target.id).slice(-1))
     var currentRating = Number($('#rating-' + id).text ())
-    $.get(localURL + id)
+    $.get(baseURL + id)
     .then(function(data){
     var rating = data.rating
       $.ajax({
         type: 'PUT',
-        url: localURL + id,
+        url: baseURL + id,
         data: {
           title: data.title,
           message: data.message,
@@ -122,7 +122,7 @@ function submitSignUp() {
     'password': password,
     'username': username
   }
-  $.post(localURL + 'users', formData)
+  $.post(baseURL + 'users', formData)
   $('#sign-up-modal').modal('hide')
   $('.message-data').empty()
   alertSuccessfulSignup()
@@ -130,16 +130,16 @@ function submitSignUp() {
 }
 
 function getUserData(id){
-  $.get(localURL + 'users/1')
+  $.get(baseURL + 'users/1')
   .then(displayUserPage)
   .then( function() {
     $(document).on('click', '#submit-new-message', function(event){
-      $.get(localURL + 'users/1')
+      $.get(baseURL + 'users/1')
       .then(data => {
         addMessage()
         $('.message-data').empty()
         loadAddMessageForm()
-        getMessages(localURL)
+        getMessages(baseURL)
       })
     })
   })
@@ -149,7 +149,7 @@ function addMessage() {
   var id = 0
   var messageTitle = $('#message-title').val()
   var messageText = $('#message-text').val()
-  $.get(localURL + 'users/1')
+  $.get(baseURL + 'users/1')
   .then(data => {
     id = data[0].id
     var rating = 0
@@ -160,11 +160,11 @@ function addMessage() {
       user_id: id
     }
     if(messageTitle && messageText) {
-      $.post(localURL + '1', postData)
+      $.post(baseURL + '1', postData)
       .then(()=> {
         $('.message-data').empty()
         loadAddMessageForm()
-        getMessages(localURL)
+        getMessages(baseURL)
       })
     }
   })
@@ -228,7 +228,7 @@ function displayUserPage(id){
   // appendUserData(id);
   editNavButtons(id)
   loadAddMessageForm(id)
-  getMessages(localURL)
+  getMessages(baseURL)
 }
 
 function alertSuccessfulSignup(){
@@ -271,7 +271,7 @@ $(document).on('click', '#my-posts', function(id){
   var id = 1
   console.log("you clicked me!");
   $('.message-data').empty()
-  $.get(localURL + id)
+  $.get(baseURL + id)
   .then(function(data){
     displayMessages(data)
     console.log(data);
@@ -300,7 +300,7 @@ function deleteMessage() {
 // $.get(`localhost${parsedToken.id}`)
 //
 
-getMessages(localURL)
+getMessages(baseURL)
 
 
 $('#sign-in').on('click', loadSignIn)
