@@ -1,7 +1,7 @@
 var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
-function getMessages(localURL) {
+function getMessages(baseURL) {
   $.get(baseURL)
     .then(displayMessages)
 }
