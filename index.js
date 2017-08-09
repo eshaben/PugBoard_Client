@@ -1,8 +1,8 @@
 var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
-function getMessages(localURL) {
-  $.get(localURL)
+function getMessages(baseURL) {
+  $.get(baseURL)
     .then(displayMessages)
 }
 
@@ -25,28 +25,23 @@ function displayMessages(data) {
                 <button type="button" id="up-${data.message_id}" class="btn btn-outline-success upvote"><i id="up-${data.message_id}" class="fa fa-hand-o-up fa-2x" aria-hidden="true"></i></button>
                 <button type="button" id="down-${data.message_id}" class="btn btn-outline-danger downvote"><i id="down-${data.message_id}" class="fa fa-hand-o-down fa-2x" aria-hidden="true"></i></button>
               </div>
+              <div class ="delete hide">
+              <button type="button" id="${data.message_id}" class="btn btn-outline-danger"><i class="fa fa-trash" id="${data.id}" aria-hidden="true"></i>
+        </button>
+              </div>
             </div>
           </div>
-          <div class="card-footer text-muted">
-          <p>
-            <a id="${data.user_id}" class="seeComments btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Comments
-            </a>
+          <div class="card-footer text-muted card-footer-${data.message_id}">
+            <p>
+              <a id="${data.message_id}" class="seeComments btn btn-primary" data-toggle="collapse" href="#collapse-${data.message_id}" aria-expanded="false" aria-controls="collapse-${data.message_id}">
+                Comments
+              </a>
             </p>
-            <div class="collapse" id="collapseExample">
-            <div class="card card-block">
-            <div class="emptyGuy"></div>
-            <div class="form-group">
-            <label for="comment-text">Add a Comment</label>
-            <textarea class="form-control" id="message-text" rows="3"></textarea>
-            <button type="button" id="${data.user_id}" class="btn btn-success">Submit Comment</button>
-            </div>
-            </div>
-            </div>
+
           </div>
-        </div>
       `
     )
+    $('.seeComments').on('click', displayComments)
   })
 
 
@@ -54,7 +49,7 @@ function displayMessages(data) {
   $('.upvote').on('click', function(event){
     event.preventDefault()
     var id = Number((event.target.id).slice(-1))
-    $.get(localURL + 'message/' + id)
+    $.get(baseURL + 'message/' + id)
     .then(function(data){
     data = data.filter(function (item) {
       return item.id == id
@@ -62,7 +57,7 @@ function displayMessages(data) {
     // var rating = data.rating
       $.ajax({
         type: 'PUT',
-        url: localURL + id,
+        url: baseURL + id,
         data: {
           title: data.title,
           message: data.message,
@@ -81,7 +76,7 @@ function displayMessages(data) {
   $('.downvote').on('click', function(event){
     event.preventDefault()
     var id = Number((event.target.id).slice(-1))
-    $.get(localURL + 'message/' + id)
+    $.get(baseURL + 'message/' + id)
     .then(function(data){
       data = data.filter(function (item) {
         return item.id == id
@@ -89,7 +84,7 @@ function displayMessages(data) {
     // var rating = data.rating
       $.ajax({
         type: 'PUT',
-        url: localURL + id,
+        url: baseURL + id,
         data: {
           title: data.title,
           message: data.message,
@@ -137,7 +132,7 @@ function submitSignUp() {
     'password': password,
     'username': username
   }
-  $.post(localURL + 'users', formData)
+  $.post(baseURL + 'users', formData)
   $('#sign-up-modal').modal('hide')
   $('.message-data').empty()
   alertSuccessfulSignup()
@@ -145,16 +140,16 @@ function submitSignUp() {
 }
 
 function getUserData(id){
-  $.get(localURL + 'users/1')
+  $.get(baseURL + 'users/1')
   .then(displayUserPage)
   .then( function() {
     $(document).on('click', '#submit-new-message', function(event){
-      $.get(localURL + 'users/1')
+      $.get(baseURL + 'users/1')
       .then(data => {
         addMessage()
         $('.message-data').empty()
         loadAddMessageForm()
-        getMessages(localURL)
+        getMessages(baseURL)
       })
     })
   })
@@ -164,7 +159,7 @@ function addMessage() {
   var id = 0
   var messageTitle = $('#message-title').val()
   var messageText = $('#message-text').val()
-  $.get(localURL + 'users/1')
+  $.get(baseURL + 'users/1')
   .then(data => {
     id = data[0].id
     var rating = 0
@@ -175,11 +170,11 @@ function addMessage() {
       user_id: id
     }
     if(messageTitle && messageText) {
-      $.post(localURL + '1', postData)
+      $.post(baseURL + '1', postData)
       .then(()=> {
         $('.message-data').empty()
         loadAddMessageForm()
-        getMessages(localURL)
+        getMessages(baseURL)
       })
     }
   })
@@ -211,16 +206,13 @@ function loadAddMessageForm(id){
             </div>
             <div class="form-group">
               <select class="custom-select">
-                <option selected>Pick a category</option>
-                <option value="1">Other</option>
+                <option selected>Pick a Category</option>
+                <option value="1">Chew Toys</option>
+                <option value="1">Kibble</option>
+                <option value="1">Training</option>
+                <option value="1">Activities</option>
+                <option value="1">Breeds</option>
               </select>
-            </div>
-            <div class="form-group">
-              <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input">
-                <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">I don't see my category!</span>
-              </label>
             </div>
             <div class="form-group">
               <div class="form-group hide blah">
@@ -243,7 +235,7 @@ function displayUserPage(id){
   // appendUserData(id);
   editNavButtons(id)
   loadAddMessageForm(id)
-  getMessages(localURL)
+  getMessages(baseURL)
 }
 
 function alertSuccessfulSignup(){
@@ -264,8 +256,8 @@ function editNavButtons(id){
   $('#sign-up').hide()
   $('.form-inline').append(
     `
-    <div class="dropdown">
-      <button class="btn btn-outline-primary" type="submit"><i class="fa fa-home" aria-hidden="true"></i></button>
+    <div class="dropdown theThing">
+      <button class="btn homeButton btn-outline-primary" type="submit"><i class="fa homeButton fa-home" aria-hidden="true"></i></button>
       <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          <i class="fa fa-user-circle" aria-hidden="true"></i>
       </button>
@@ -278,43 +270,104 @@ function editNavButtons(id){
         <a class="dropdown-item" id="my-posts" href="#">My Posts</a>
       </div>
     </div>
-      <button class="btn btn-primary" type="submit">Sign Out</button>
+      <button class="btn signOut btn-primary" type="submit">Sign Out</button>
     `
   )
 }
-$(document).on('click', '#my-posts', function(id){
+
+
+function displayUserMessages(id){
   var id = 1
-  console.log("you clicked me!");
   $('.message-data').empty()
-  $.get(localURL + id)
+  $.get(baseURL + id)
   .then(function(data){
     displayMessages(data)
-    console.log(data);
     $('.post-by').text("Post by: You")
-  })
-})
-
-function deleteMessage() {
-  $.ajax({
-    url: `http://localhost:3000/`,
-    method: 'DELETE'
+    data.forEach(function(data){
+      $('.delete').removeClass('hide')
+    })
   })
 }
 
+function displayComments(event){
+  $('.card-footer-' + event.target.id).append(
+    `
+    <div class="collapse" id="collapse-${event.target.id}">
+      <div class="card card-block">
+        <div class="emptyGuy"></div>
+          <div class="form-group">
+            <label for="comment-text">Add a Comment</label>
+            <textarea class="form-control" id="comment-text" rows="3"></textarea>
+            <button type="button" id="${event.target.id}" class="btn btn-success">Submit Comment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+  )
+}
+//
+// function deleteMessage() {
+//   $.ajax({
+//     url: `http://localhost:3000/`,
+//     method: 'DELETE'
+//   })
+// }
 
+$(document).on('click', '.delete', function(event){
+  console.log("you clicked me");
+  var id = event.target.id;
+  console.log(id);
+  $.ajax({
+    type: 'DELETE',
+    url: baseURL + 'message/' + id,
 
+  })
+  .then(()=> {
+    displayUserMessages(id)
+    $('header').append(
+      `
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Your message was successfully deleted!
+      </div>
+      `
+    )
+  })
+})
 
-getMessages(localURL)
+function goHome(id){
+  $('.message-data').empty()
+  loadAddMessageForm(id)
+  getMessages(baseURL)
+}
+function signOut(){
+  $('.message-data').empty()
+  getMessages(baseURL)
+  $('#sign-in').show()
+  $('#sign-up').show()
+  $('.signOut').hide()
+  $('.theThing').hide()
+}
+getMessages(baseURL)
+
 
 
 $('#sign-in').on('click', loadSignIn)
 $('#sign-up').on('click', loadSignUp)
 $('.submit-sign-in').on('click', submitSignIn)
 $('#submit-sign-up').on('click', submitSignUp)
-$('#deleteButton').on('click', deleteMessage)
+// $('#deleteButton').on('click', deleteMessage)
+// $('.homeButton').on('click')
+$(document).on('click', '.homeButton', goHome)
+$(document).on('click', '.signOut', signOut)
 $('.custom-control-input').on('click', function(){
   $('.hide').toggle()
 })
+
+$(document).on('click', '#my-posts', displayUserMessages)
 
 
 
