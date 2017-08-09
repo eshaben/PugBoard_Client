@@ -35,5 +35,5 @@ https://pugboard-855e9.firebaseapp.com/
 
 ![Website](Website.png)
 <a href="https://www.youtube.com/watch?v=ymIv-7HRz9o&feature=youtu.be
-" target="_blank"><img src="https://img.youtube.com/watch?v=ymIv-7HRz9o&feature=youtu.be.jpg" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+" target="_blank"><img src="https://img.youtube.com/watch?v=ymIv-7HRz9o&feature=youtu.be.jpg"
+alt="PugBoard" width="240" height="180" border="10" /></a>
