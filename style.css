@@ -83,3 +83,8 @@ main {
   width: 40vw;
   margin-bottom: 0;
 }
+
+.card-center {
+  border: none;
+
+}
