@@ -1,8 +1,8 @@
 var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
-function getMessages(baseURL) {
-  $.get(baseURL)
+function getMessages(localURL) {
+  $.get(localURL)
     .then(displayMessages)
 }
 
@@ -44,30 +44,27 @@ function displayMessages(data) {
     $('.seeComments').on('click', displayComments)
   })
 
-
-  //this is where I was last working
   $('.upvote').on('click', function(event){
     event.preventDefault()
-    var id = Number((event.target.id).slice(-1))
-    $.get(baseURL + 'message/' + id)
+    console.log(event.target.id);
+    var id = Number((event.target.id).substring(3))
+    $.get(localURL + 'message/' + id)
     .then(function(data){
     data = data.filter(function (item) {
       return item.id == id
       })[0]
-    // var rating = data.rating
       $.ajax({
         type: 'PUT',
-        url: baseURL + id,
+        url: localURL + id,
         data: {
-          title: data.title,
           message: data.message,
           rating: Number(data.rating) + 1,
+          title: data.title,
           user_id: data.user_id
         }
       })
       .then(function(data){
         let rating = data[0].rating;
-        // getMessages()
         $('#rating-' + id).text(rating)
       })
     })
@@ -75,16 +72,15 @@ function displayMessages(data) {
 
   $('.downvote').on('click', function(event){
     event.preventDefault()
-    var id = Number((event.target.id).slice(-1))
-    $.get(baseURL + 'message/' + id)
+    var id = Number((event.target.id).substring(5))
+    $.get(localURL + 'message/' + id)
     .then(function(data){
       data = data.filter(function (item) {
         return item.id == id
         })[0]
-    // var rating = data.rating
       $.ajax({
         type: 'PUT',
-        url: baseURL + id,
+        url: localURL + id,
         data: {
           title: data.title,
           message: data.message,
@@ -94,7 +90,6 @@ function displayMessages(data) {
       })
       .then(function(data){
         let rating = data[0].rating;
-        // getMessages()
         $('#rating-' + id).text(rating)
       })
     })
@@ -132,7 +127,7 @@ function submitSignUp() {
     'password': password,
     'username': username
   }
-  $.post(baseURL + 'users', formData)
+  $.post(localURL + 'users', formData)
   $('#sign-up-modal').modal('hide')
   $('.message-data').empty()
   alertSuccessfulSignup()
@@ -140,16 +135,16 @@ function submitSignUp() {
 }
 
 function getUserData(id){
-  $.get(baseURL + 'users/1')
+  $.get(localURL + 'users/1')
   .then(displayUserPage)
   .then( function() {
     $(document).on('click', '#submit-new-message', function(event){
-      $.get(baseURL + 'users/1')
+      $.get(localURL + 'users/1')
       .then(data => {
         addMessage()
         $('.message-data').empty()
         loadAddMessageForm()
-        getMessages(baseURL)
+        getMessages(localURL)
       })
     })
   })
@@ -159,7 +154,7 @@ function addMessage() {
   var id = 0
   var messageTitle = $('#message-title').val()
   var messageText = $('#message-text').val()
-  $.get(baseURL + 'users/1')
+  $.get(localURL + 'users/1')
   .then(data => {
     id = data[0].id
     var rating = 0
@@ -170,11 +165,11 @@ function addMessage() {
       user_id: id
     }
     if(messageTitle && messageText) {
-      $.post(baseURL + '1', postData)
+      $.post(localURL + '1', postData)
       .then(()=> {
         $('.message-data').empty()
         loadAddMessageForm()
-        getMessages(baseURL)
+        getMessages(localURL)
       })
     }
   })
@@ -232,10 +227,9 @@ function loadAddMessageForm(id){
 
 
 function displayUserPage(id){
-  // appendUserData(id);
   editNavButtons(id)
   loadAddMessageForm(id)
-  getMessages(baseURL)
+  getMessages(localURL)
 }
 
 function alertSuccessfulSignup(){
@@ -279,7 +273,7 @@ function editNavButtons(id){
 function displayUserMessages(id){
   var id = 1
   $('.message-data').empty()
-  $.get(baseURL + id)
+  $.get(localURL + id)
   .then(function(data){
     displayMessages(data)
     $('.post-by').text("Post by: You")
@@ -306,13 +300,6 @@ function displayComments(event){
     `
   )
 }
-//
-// function deleteMessage() {
-//   $.ajax({
-//     url: `http://localhost:3000/`,
-//     method: 'DELETE'
-//   })
-// }
 
 $(document).on('click', '.delete', function(event){
   console.log("you clicked me");
@@ -320,7 +307,7 @@ $(document).on('click', '.delete', function(event){
   console.log(id);
   $.ajax({
     type: 'DELETE',
-    url: baseURL + 'message/' + id,
+    url: localURL + 'message/' + id,
 
   })
   .then(()=> {
@@ -341,17 +328,17 @@ $(document).on('click', '.delete', function(event){
 function goHome(id){
   $('.message-data').empty()
   loadAddMessageForm(id)
-  getMessages(baseURL)
+  getMessages(localURL)
 }
 function signOut(){
   $('.message-data').empty()
-  getMessages(baseURL)
+  getMessages(localURL)
   $('#sign-in').show()
   $('#sign-up').show()
   $('.signOut').hide()
   $('.theThing').hide()
 }
-getMessages(baseURL)
+getMessages(localURL)
 
 
 
@@ -368,13 +355,3 @@ $('.custom-control-input').on('click', function(){
 })
 
 $(document).on('click', '#my-posts', displayUserMessages)
-
-
-
-//once we are dynamically appending cards, we can limit the description text to X amount of characters
-// and then we can create a click handler for the read more button that will then reveal the rest of the text,
-// and a show less button that will then make it go back to normal, this way we can control
-// the size of the messages and list more messages on one screen allowing users to scroll through messages quickly
-// MESSAGES.
-// //var myDiv = $('.myclass');        /*/select the description field/*/
-// myDiv.text(myDiv.text().substring(0,200));    /*/limit characters to 200/*/
