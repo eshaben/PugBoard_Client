@@ -46,7 +46,6 @@ function displayMessages(data) {
 
   $('.upvote').on('click', function(event){
     event.preventDefault()
-    console.log(event.target.id);
     var id = Number((event.target.id).substring(3))
     $.get(localURL + 'message/' + id)
     .then(function(data){
@@ -119,44 +118,47 @@ function submitSignIn() {
 }
 
 function submitSignUp() {
-  let email = $('#sign-up-email').val();
-  let password = $('#sign-up-password').val()
-  let username = $('#sign-up-username').val()
   let formData = {
-    'email': email,
-    'password': password,
-    'username': username
+    'email': $('#sign-up-email').val(),
+    'password': $('#sign-up-password').val(),
+    'username': $('#sign-up-username').val()
   }
   $.post(localURL + 'users', formData)
-  $('#sign-up-modal').modal('hide')
-  $('.message-data').empty()
-  alertSuccessfulSignup()
-  getUserData()
-}
-
-function getUserData(id){
-  $.get(localURL + 'users/1')
-  .then(displayUserPage)
-  .then( function() {
-    $(document).on('click', '#submit-new-message', function(event){
-      $.get(localURL + 'users/1')
-      .then(data => {
-        addMessage()
-        $('.message-data').empty()
-        loadAddMessageForm()
-        getMessages(localURL)
-      })
-    })
+  .then(data => {
+    let id = data.newUser[0].id;
+    $('#sign-up-modal').modal('hide')
+    $('.message-data').empty()
+    alertSuccessfulSignup()
+    getUserData(id)
   })
 }
 
-function addMessage() {
-  var id = 0
+function getUserData(id){
+  $.get(localURL + 'users/' + id)
+  .then(displayUserPage(id))
+  .then(function(id) {
+    $(document).on('click', '.submit-new-message', function(id){
+      // var id = id.target.id;
+      // $.get(localURL + 'users/' + id)
+      // .then(data => {
+      //   console.log(data);
+        addMessage(id)
+        $('.message-data').empty()
+        loadAddMessageForm()
+        getMessages(localURL)
+        editNavButtons()
+      })
+    })
+  }
+
+
+function addMessage(id) {
+  var id = id.target.id
   var messageTitle = $('#message-title').val()
   var messageText = $('#message-text').val()
-  $.get(localURL + 'users/1')
+  $.get(localURL + 'users/' + id)
   .then(data => {
-    id = data[0].id
+   id = data[0].id
     var rating = 0
     var postData = {
       title: messageTitle,
@@ -165,7 +167,7 @@ function addMessage() {
       user_id: id
     }
     if(messageTitle && messageText) {
-      $.post(localURL + '1', postData)
+      $.post(localURL + id, postData)
       .then(()=> {
         $('.message-data').empty()
         loadAddMessageForm()
@@ -176,6 +178,7 @@ function addMessage() {
 }
 
 function loadAddMessageForm(id){
+  console.log(id);
   $('.message-data').append(`
     <div class="card random">
       <div class="card-header" role="tab" id="heading-add-message">
@@ -216,7 +219,7 @@ function loadAddMessageForm(id){
               </div>
             </div>
             <div class="form-group">
-              <button type="button" id='submit-new-message' class="btn btn-success">Submit</button>
+              <button type="button" id="${id}" class="submit-new-message btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -246,32 +249,35 @@ function alertSuccessfulSignup(){
 }
 
 function editNavButtons(id){
-  $('#sign-in').hide()
-  $('#sign-up').hide()
-  $('.form-inline').append(
-    `
-    <div class="dropdown theThing">
-      <button class="btn homeButton btn-outline-primary" type="submit"><i class="fa homeButton fa-home" aria-hidden="true"></i></button>
-      <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         <i class="fa fa-user-circle" aria-hidden="true"></i>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-        <div class="dropdown-item">
-          <p>Username: ${id[0].username}</p>
-          <p>Email: ${id[0].email}</p>
+  $.get(localURL + 'users/' + id)
+  .then(function(data){
+    $('#sign-in').hide()
+    $('#sign-up').hide()
+    $('.form-inline').append(
+      `
+      <div class="dropdown theThing">
+        <button class="btn homeButton btn-outline-primary" type="submit"><i class="fa homeButton fa-home" aria-hidden="true"></i></button>
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           <i class="fa fa-user-circle" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+          <div class="dropdown-item">
+            <p>Username: ${data[0].username}</p>
+            <p>Email: ${data[0].email}</p>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item my-posts" id="${id}" href="#">My Posts</a>
         </div>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" id="my-posts" href="#">My Posts</a>
       </div>
-    </div>
-      <button class="btn signOut btn-primary" type="submit">Sign Out</button>
-    `
-  )
+        <button class="btn signOut btn-primary" type="submit">Sign Out</button>
+      `
+    )
+  })
 }
 
 
 function displayUserMessages(id){
-  var id = 1
+  var id = id.target.id
   $('.message-data').empty()
   $.get(localURL + id)
   .then(function(data){
@@ -354,4 +360,4 @@ $('.custom-control-input').on('click', function(){
   $('.hide').toggle()
 })
 
-$(document).on('click', '#my-posts', displayUserMessages)
+$(document).on('click', '.my-posts', displayUserMessages)
