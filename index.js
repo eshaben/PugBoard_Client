@@ -112,9 +112,19 @@ function loadSignUp() {
 function submitSignIn() {
   let email = $('#sign-in-email').val();
   let password = $('#sign-in-password').val()
+  let data = {email, password}
+
   $('#sign-in-modal').modal('hide')
-  $('.message-data').empty()
-  getUserData()
+
+  $.post(localURL + 'auth/login', data)
+    .then(response => {
+      if(response.error){
+        alert(response.error)
+      } else {
+        localStorage.setItem('token', response.token)
+        location.href = '/user.html'
+      }
+    })
 }
 
 function submitSignUp() {
@@ -123,15 +133,25 @@ function submitSignUp() {
     'password': $('#sign-up-password').val(),
     'username': $('#sign-up-username').val()
   }
-  $.post(localURL + 'users', formData)
+  $.post(localURL + 'auth/signup', formData)
   .then(data => {
-    let id = data.newUser[0].id;
+    let tokenString = data.token
+    let token = tokenString.replace(/['"]+/g, '')
+    let decoded = parseJwt(token)
+    console.log(decoded);
+    let id = decoded.id;
     $('#sign-up-modal').modal('hide')
     $('.message-data').empty()
     alertSuccessfulSignup()
     getUserData(id)
   })
 }
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+};
 
 function getUserData(id){
   $.get(localURL + 'users/' + id)

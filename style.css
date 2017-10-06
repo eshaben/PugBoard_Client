@@ -86,5 +86,9 @@ main {
 
 .card-center {
   border: none;
+}
 
+.jumbotron {
+  margin-top: 3vh;
+  height: 25vh;
 }
