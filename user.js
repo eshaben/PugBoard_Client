@@ -2,6 +2,8 @@ var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
 getMessages(localURL)
+showUserData()
+
 
 $(document).on('click', '.homeButton', goHome)
 $(document).on('click', '.signOut', signOut)
@@ -78,3 +80,28 @@ function signOut(){
   localStorage.removeItem('token')
   location.href = '/'
 }
+
+function showUserData(){
+  var userData = getUserDataFromToken()
+  $('.username-info').append(
+    `
+    Username: ${userData.username}
+    `
+  )
+  $('.email-info').append(
+    `
+    Email: ${userData.email}
+    `
+  )
+}
+
+function getUserDataFromToken(){
+  var token = localStorage.getItem('token')
+   return parseJwt(token)
+}
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+};
