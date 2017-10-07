@@ -3,6 +3,7 @@ var localURL = 'http://localhost:3000/'
 
 getMessages(localURL)
 $('.submit-sign-in').on('click', submitSignIn)
+$('#submit-sign-up').on('click', submitSignUp)
 
 function getMessages(localURL) {
   $.get(localURL)
@@ -80,6 +81,29 @@ function submitSignIn() {
       }
     })
 }
+
+function submitSignUp() {
+  let formData = {
+    'email': $('#sign-up-email').val(),
+    'password': $('#sign-up-password').val(),
+    'username': $('#sign-up-username').val()
+  }
+  $.post(localURL + 'auth/signup', formData)
+    .then(data => {
+      let token = data.token.replace(/['"]+/g, '')
+      let decoded = parseJwt(token)
+
+      localStorage.setItem('token', token)
+      location.href = '/user.html'
+      $('#sign-up-modal').modal('hide')
+    })
+}
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace('-', '+').replace('_', '/');
+  return JSON.parse(window.atob(base64));
+};
 
   // $('.upvote').on('click', function(event){
   //   event.preventDefault()
