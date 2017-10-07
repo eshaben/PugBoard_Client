@@ -2,6 +2,7 @@ var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
 getMessages(localURL)
+$('.submit-sign-in').on('click', submitSignIn)
 
 function getMessages(localURL) {
   $.get(localURL)
@@ -62,6 +63,22 @@ function displayComments(event){
     </div>
     `
   )
+}
+
+function submitSignIn() {
+  let email = $('#sign-in-email').val();
+  let password = $('#sign-in-password').val()
+  let data = {email, password}
+
+  $.post(localURL + 'auth/login', data)
+    .then(response => {
+      if(response.error){
+        alert(response.error)
+      } else {
+        localStorage.setItem('token', response.token)
+        location.href = '/user.html'
+      }
+    })
 }
 
   // $('.upvote').on('click', function(event){
