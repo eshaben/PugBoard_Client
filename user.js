@@ -4,9 +4,9 @@ var localURL = 'http://localhost:3000/'
 getMessages(localURL)
 showUserData()
 
-
 $(document).on('click', '.homeButton', goHome)
 $(document).on('click', '.signOut', signOut)
+$(document).on('click', '.my-posts', displayUserMessages)
 
 
 function getMessages(localURL) {
@@ -86,13 +86,11 @@ function showUserData(){
   $('.username-info').append(
     `
     Username: ${userData.username}
-    `
-  )
+    `)
   $('.email-info').append(
     `
     Email: ${userData.email}
-    `
-  )
+    `)
 }
 
 function getUserDataFromToken(){
@@ -104,4 +102,24 @@ function parseJwt (token) {
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace('-', '+').replace('_', '/');
   return JSON.parse(window.atob(base64));
-};
+}
+
+function displayUserMessages(){
+  var userData = getUserDataFromToken()
+  $('.message-section').empty()
+  $.get(localURL + userData.id)
+    .then(function(data){
+      if(data.length === 0){
+        $('.message-section').append(
+          `
+          <div class="card card-block">
+            <h3 class="text-center"> You have not created any messages yet! </h3>
+          </div>
+          `)
+      } else {
+        displayMessages(data)
+        $('.post-by').text("Post by: You")
+        addDeleteButtonToUserMessages(data)
+      }
+    })
+}
