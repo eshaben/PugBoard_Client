@@ -3,6 +3,9 @@ var localURL = 'http://localhost:3000/'
 
 getMessages(localURL)
 
+$(document).on('click', '.homeButton', goHome)
+
+
 function getMessages(localURL) {
   $.get(localURL)
     .then(displayMessages)
@@ -63,4 +66,9 @@ function displayComments(event){
     </div>
     `
   )
+}
+
+function goHome(id){
+  $('.message-section').empty()
+  getMessages(localURL)
 }
