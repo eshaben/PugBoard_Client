@@ -20,79 +20,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <span class="navbar-nav mr-auto"></span>
           <section class="form-inline">
-            <button class="btn btn-primary" id="sign-in" type="button" data-toggle="modal" data-target="#sign-in-modal" data-whatever="sign-in">Sign In</button>
-            <button class="btn btn-primary" id="sign-up" type="button" data-toggle="modal" data-target="#sign-up-modal" data-whatever="sign-up">Sign Up</button>
-            <button class="btn btn-primary" id="sign-out" type="button" data-toggle="modal" data-target="#sign-out-modal" data-whatever="sign-out">Sign Out</button>
-            <div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Welcome back! Please sign in!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form class="authenticate-form">
-                      <div class="form-group row">
-                        <label for="sign-in-email" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="sign-in-email" placeholder="Tater@pugsforlife.com">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="sign-in-password" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                          <input type="password" class="form-control" id="sign-in-password" placeholder="Password">
-                        </div>
-                      </div>
-                    </form>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
-                      <button type="button" class="btn btn-primary submit-sign-in">Sign In!</button>
-                    </div>
-                  </div>
+            <div class="dropdown theThing">
+              <button class="btn homeButton btn-outline-primary" type="submit"><i class="fa homeButton fa-home" aria-hidden="true"></i></button>
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <i class="fa fa-user-circle" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-item">
+                  <p class="username-info"></p>
+                  <p class="email-info"></p>
                 </div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item my-posts" id="" href="#">My Posts</a>
               </div>
             </div>
-            <div class="modal fade" id="sign-up-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New here? Sign up for everything pugs!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form class="authenticate-form">
-                      <div class="form-group row">
-                        <label for="sign-up-email" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="sign-up-email" placeholder="Tater@pugsforlife.com">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="sign-up-password" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                          <input type="password" class="form-control" id="sign-up-password" placeholder="Password">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="sign-up-username" class="col-sm-2 col-form-label">Username</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="sign-up-username" placeholder="tater_tot00">
-                        </div>
-                      </div>
-                    </form>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
-                      <button type="button" class="btn btn-primary" id="submit-sign-up">Sign Up!</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <button class="btn signOut btn-primary" type="submit">Sign Out</button>
+            <!-- <button class="btn btn-primary" id="sign-out" type="button" data-toggle="modal" data-target="#sign-out-modal" data-whatever="sign-out">Sign Out</button> -->
           </section>
         </div>
       </nav>
@@ -138,12 +81,15 @@
                 </div>
               </div>
               <div class="form-group">
-                <button type="button" class="btn bob btn-success">Submit</button>
+                <button type="button" class="btn submit btn-success">Submit</button>
               </div>
             </form>
           </div>
         </div>
       </div>
+      <section class="message-section">
+
+      </section>
 
     </main>
 
@@ -160,6 +106,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   <script src="https://use.fontawesome.com/96b9604e8e.js"></script>
-  <script src='index.js'></script>
+  <script src='user.js'></script>
   </body>
 </html>
