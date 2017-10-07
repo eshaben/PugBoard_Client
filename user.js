@@ -4,6 +4,7 @@ var localURL = 'http://localhost:3000/'
 getMessages(localURL)
 
 $(document).on('click', '.homeButton', goHome)
+$(document).on('click', '.signOut', signOut)
 
 
 function getMessages(localURL) {
@@ -71,4 +72,9 @@ function displayComments(event){
 function goHome(id){
   $('.message-section').empty()
   getMessages(localURL)
+}
+
+function signOut(){
+  localStorage.removeItem('token')
+  location.href = '/'
 }
