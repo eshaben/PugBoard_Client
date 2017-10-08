@@ -146,5 +146,12 @@ function addMessage() {
         $('.message-section').empty()
         getMessages(localURL)
       })
+    clearAndCollapseMessageForm()
   }
+}
+
+function clearAndCollapseMessageForm(){
+  var messageTitle = $('#message-title').val('')
+  var messageText = $('#message-text').val('')
+  $('#add-message').collapse('toggle')
 }
