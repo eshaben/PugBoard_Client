@@ -9,6 +9,7 @@ $(document).on('click', '.signOut', signOut)
 $(document).on('click', '.my-posts', displayUserMessages)
 $(document).on('click', '.submit-new-message', addMessage)
 $(document).on('click', '.delete', deleteMessage)
+$(document).on('click', '.upvote', upVoteAMessage)
 
 
 function getMessages(localURL) {
@@ -184,4 +185,24 @@ function notifySuccessOfDeletion(){
     </div>
     `
   )
+}
+
+function upVoteAMessage(event){
+  var messageId = event.target.id
+  $.get(localURL + 'message/' + messageId)
+    .then(function(data){
+      $.ajax({
+        type: 'PUT',
+        url: localURL + messageId,
+        data: {
+          message: data[0].message,
+          rating: Number(data[0].rating) + 1,
+          title: data[0].title,
+          user_id: data[0].user_id
+        }
+      })
+      .then(function(data){
+        $('#rating-' + messageId).text(data[0].rating)
+      })
+    })
 }
