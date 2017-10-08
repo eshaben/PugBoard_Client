@@ -155,3 +155,7 @@ function clearAndCollapseMessageForm(){
   var messageText = $('#message-text').val('')
   $('#add-message').collapse('toggle')
 }
+
+function addDeleteButtonToUserMessages(data){
+  $('.delete').removeClass('hide')
+}
