@@ -1,7 +1,7 @@
-var baseURL = 'https://blooming-plateau-13338.herokuapp.com/'
+var baseURL = 'https://vast-wildwood-40809.herokuapp.com/users'
 var localURL = 'http://localhost:3000/'
 
-getMessages(localURL)
+getMessages(baseURL)
 showUserData()
 
 $(document).on('click', '.homeButton', goHome)
@@ -13,8 +13,8 @@ $(document).on('click', '.upvote', upVoteAMessage)
 $(document).on('click', '.downvote', downVoteAMessage)
 
 
-function getMessages(localURL) {
-  $.get(localURL)
+function getMessages(baseURL) {
+  $.get(baseURL)
     .then(displayMessages)
 }
 
@@ -77,7 +77,7 @@ function displayComments(event){
 
 function goHome(id){
   $('.message-section').empty()
-  getMessages(localURL)
+  getMessages(baseURL)
 }
 
 function signOut(){
@@ -111,7 +111,7 @@ function parseJwt (token) {
 function displayUserMessages(){
   var userData = getUserDataFromToken()
   $('.message-section').empty()
-  $.get(localURL + userData.id)
+  $.get(baseURL + userData.id)
     .then(function(data){
       if(data.length === 0){
         $('.message-section').append(
@@ -144,10 +144,10 @@ function addMessage() {
     user_id: messageDetails.userData.id
   }
   if(messageDetails.messageText && messageDetails.messageTitle) {
-    $.post(localURL + messageDetails.userData.id, postBody)
+    $.post(baseURL + messageDetails.userData.id, postBody)
       .then(()=> {
         $('.message-section').empty()
-        getMessages(localURL)
+        getMessages(baseURL)
       })
     clearAndCollapseMessageForm()
   }
@@ -167,7 +167,7 @@ function deleteMessage(event){
   var messageId = event.target.id
   $.ajax({
      type: 'DELETE',
-     url: localURL + 'message/' + messageId
+     url: baseURL + 'message/' + messageId
    })
   .then(()=> {
     displayUserMessages()
@@ -190,11 +190,11 @@ function notifySuccessOfDeletion(){
 
 function upVoteAMessage(event){
   var messageId = event.target.id
-  $.get(localURL + 'message/' + messageId)
+  $.get(baseURL + 'message/' + messageId)
     .then(function(data){
       $.ajax({
         type: 'PUT',
-        url: localURL + messageId,
+        url: baseURL + messageId,
         data: {
           message: data[0].message,
           rating: Number(data[0].rating) + 1,
@@ -210,11 +210,11 @@ function upVoteAMessage(event){
 
 function downVoteAMessage(event){
   var messageId = event.target.id
-  $.get(localURL + 'message/' + messageId)
+  $.get(baseURL + 'message/' + messageId)
     .then(function(data){
       $.ajax({
         type: 'PUT',
-        url: localURL + messageId,
+        url: baseURL + messageId,
         data: {
           message: data[0].message,
           rating: Number(data[0].rating) - 1,
