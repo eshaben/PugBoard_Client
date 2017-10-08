@@ -8,6 +8,7 @@ $(document).on('click', '.homeButton', goHome)
 $(document).on('click', '.signOut', signOut)
 $(document).on('click', '.my-posts', displayUserMessages)
 $(document).on('click', '.submit-new-message', addMessage)
+$(document).on('click', '.delete', deleteMessage)
 
 
 function getMessages(localURL) {
@@ -158,4 +159,25 @@ function clearAndCollapseMessageForm(){
 
 function addDeleteButtonToUserMessages(data){
   $('.delete').removeClass('hide')
+}
+
+function deleteMessage(event){
+  var messageId = event.target.id
+  $.ajax({
+     type: 'DELETE',
+     url: localURL + 'message/' + messageId
+   })
+  .then(()=> {
+    displayUserMessages()
+    $('header').append(
+      `
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Your message was successfully deleted!
+      </div>
+      `
+    )
+  })
 }
