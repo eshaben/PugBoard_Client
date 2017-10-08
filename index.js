@@ -1,4 +1,4 @@
-var baseURL = 'https://vast-wildwood-40809.herokuapp.com/users'
+var baseURL = 'https://vast-wildwood-40809.herokuapp.com/'
 var localURL = 'http://localhost:3000/'
 
 getMessages(baseURL)
@@ -11,6 +11,7 @@ function getMessages(baseURL) {
 }
 
 function displayMessages(data) {
+  console.log(data);
   data.forEach(function(data) {
     $('.message-data').append(
       `
