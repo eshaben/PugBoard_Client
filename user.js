@@ -169,15 +169,19 @@ function deleteMessage(event){
    })
   .then(()=> {
     displayUserMessages()
-    $('header').append(
-      `
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        Your message was successfully deleted!
-      </div>
-      `
-    )
+    notifySuccessOfDeletion()
   })
+}
+
+function notifySuccessOfDeletion(){
+  $('header').append(
+    `
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Your message was successfully deleted!
+    </div>
+    `
+  )
 }
