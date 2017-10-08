@@ -7,6 +7,7 @@ showUserData()
 $(document).on('click', '.homeButton', goHome)
 $(document).on('click', '.signOut', signOut)
 $(document).on('click', '.my-posts', displayUserMessages)
+$(document).on('click', '.submit-new-message', addMessage)
 
 
 function getMessages(localURL) {
@@ -122,4 +123,28 @@ function displayUserMessages(){
         addDeleteButtonToUserMessages(data)
       }
     })
+}
+
+function getNewMessageDetails(){
+  var userData = getUserDataFromToken()
+  var messageTitle = $('#message-title').val()
+  var messageText = $('#message-text').val()
+  return {userData, messageTitle, messageText}
+}
+
+function addMessage() {
+  var messageDetails = getNewMessageDetails()
+  var postBody = {
+    title: messageDetails.messageTitle,
+    message: messageDetails.messageText,
+    rating: 0,
+    user_id: messageDetails.userData.id
+  }
+  if(messageDetails.messageText && messageDetails.messageTitle) {
+    $.post(localURL + messageDetails.userData.id, postBody)
+      .then(()=> {
+        $('.message-section').empty()
+        getMessages(localURL)
+      })
+  }
 }
