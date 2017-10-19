@@ -1,7 +1,8 @@
 ![PugBoard Logo](assets/pugboard_logo.png)
 
 PugBoard is a message board for dogs, dog owners, and general dog lovers.
-https://pugboard-855e9.firebaseapp.com/
+
+Deployed: https://pugboard-message-board.firebaseapp.com/
 
 - You can post messages
 - You can up-vote and down-vote messages
